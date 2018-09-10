@@ -1,6 +1,6 @@
 package com.capgemini.util;
 
-public class util{
+public class Util {
 
         public static boolean isNumeric( String x){
             boolean is= Boolean.TRUE;

@@ -1,0 +1,68 @@
+
+package com.cagmeini.serviciosya.service.test;
+
+
+import java.util.List;
+
+import com.cagmeini.serviciosya.dao.IOccupationDao;
+import com.cagmeini.serviciosya.dao.OccupationDaoMemory;
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.cagmeini.serviciosya.beans.domain.Occupation;
+import com.cagmeini.serviciosya.service.OccupationService;
+
+
+public class OccupationServiceTest {
+
+
+    private OccupationService occupationService = new OccupationService ();
+
+    private IOccupationDao occupationDao = new OccupationDaoMemory ();
+
+
+    @Test
+    public void testFindAllOccupations () {
+
+
+        this.occupationService.setOccupationDao (this.occupationDao);
+
+        List<Occupation> list = this.occupationService.findAllOccupations ();
+
+        Assert.assertFalse (list.isEmpty ());
+    }
+
+    @Test
+    public void testAddOccupation () {
+
+
+        this.occupationService.setOccupationDao (this.occupationDao);
+
+        Occupation o = new Occupation ("1", "Catador de Ron", "Beber alcohol...");
+
+        List<Occupation> init = this.occupationDao.findAllOccupations ();
+
+        this.occupationService.addOccupation (o);
+
+        List<Occupation> end = this.occupationDao.findAllOccupations ();
+
+        Assert.assertTrue (init.size()+1 == end.size());
+    }
+
+    @Test
+
+    public void testDeleteOccupation(){
+
+        this.occupationService.setOccupationDao (this.occupationDao);
+
+        Occupation o = new Occupation ("1", "Catador de Ron", "Beber alcohol...");
+
+        List<Occupation> init = this.occupationDao.findAllOccupations ();
+
+        this.occupationService.deleteOccupation(o);
+
+        List<Occupation> end = this.occupationDao.findAllOccupations ();
+
+        Assert.assertTrue (init.size() == end.size());
+    }
+}
