@@ -1,4 +1,6 @@
+
 package com.capgemini.serviciosya.dao.orm;
+
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -8,7 +10,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.apache.log4j.Logger;
 
 
-public final class HibernateUtil {
+public class HibernateUtil {
 
 
     private static SessionFactory sessionAnnotationFactory;
@@ -23,7 +25,7 @@ public final class HibernateUtil {
     }
 
 
-    private static SessionFactory buildSessionAnnotationFactory () {
+    private static SessionFactory buildSessionAnnotationFactory (){
 
         try {
 
