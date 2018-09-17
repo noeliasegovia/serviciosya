@@ -19,7 +19,7 @@ public class CityDaoTest {
 
         CityEntity c = new CityEntity();
         ProvinceEntity p = new ProvinceEntity();
-        p.setId(3);
+        p.setId(1);
         c.setName("Quilmes");
         c.setProvince(p);
 
