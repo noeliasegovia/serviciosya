@@ -4,6 +4,7 @@ import com.capgemini.serviciosya.beans.entity.ClientEntity;
 import com.capgemini.serviciosya.dao.IClientDao;
 import com.capgemini.serviciosya.dao.DaoException;
 import org.apache.log4j.Logger;
+import  org.apache.commons.lang3.StringUtils ;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,114 +23,14 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 public class ClientDaoHibernate implements IClientDao{
 
-    private SessionFactory sessionFactory = HibernateUtil.getSessionAnnotationFactory ();
+    private SessionFactory sessionFactory = HibernateUtil.getSessionAnnotationFactory();
 
     private static final Logger logger= Logger.getLogger (ClientDaoHibernate.class);
-
-    @Override
-    public ClientEntity findByEmail(String email) {
-
-        if (isEmpty (email)) {
-
-            logger.warn ("Email argument is empty!");
-            return null;
-        }
-
-        ClientEntity client;
-        Session session = null;
-        try {
-
-            logger.debug ("Getting hibernate session...");
-            session = this.sessionFactory.openSession ();
-
-            logger.debug (String.format ("Finding client by emai %s", email));
-            client = (ClientEntity) session.
-                    createQuery ("From client p where p.email = '" + email + "'").
-                    uniqueResult ();
-
-        } catch (Exception e) {
-
-            logger.error ("Error finding a client by email");
-            throw new DaoException (e.getMessage (), e);
-
-        } finally {
-
-            session.close ();
-        }
-        return client;
-    }
-
-    @Override
-    public ClientEntity findByDNI(Integer dni) {
-        if (dni == null) {
-
-            logger.warn ("DNI argument is empty!");
-            return null;
-        }
-
-        ClientEntity client;
-        Session session = null;
-        try {
-
-            logger.debug ("Getting hibernate session...");
-            session = this.sessionFactory.openSession ();
-
-            logger.debug (String.format ("Finding client by dni %s", dni.toString()));
-            Criteria criteria = session.createCriteria (ClientEntity.class);
-            criteria.add (Restrictions.eq ("dni", dni));
-
-            client = (ClientEntity) criteria.uniqueResult ();
-
-        } catch (Exception e) {
-
-            logger.error ("Error finding a client by dni");
-            throw new DaoException (e.getMessage (), e);
-
-        } finally {
-
-            session.close ();
-        }
-
-        return client;
-
-    }
-
-    @Override
-    public ClientEntity findByPhone(String phone) {
-        if (isEmpty (phone)) {
-
-            logger.warn ("Phone argument is empty!");
-            return null;
-        }
-
-        ClientEntity client;
-        Session session = null;
-        try {
-
-            logger.debug ("Getting hibernate session...");
-            session = this.sessionFactory.openSession ();
-
-            logger.debug (String.format ("Finding client by phone %s", phone));
-            client = (ClientEntity)session.getNamedQuery ("ClientFindByPhone").
-                    setString("phone", phone).uniqueResult();
-
-
-        } catch (Exception e) {
-
-            logger.error ("Error finding a client by dni");
-            throw new DaoException (e.getMessage (), e);
-
-        } finally {
-
-            session.close ();
-        }
-        return client;
-    }
 
 
     @Override
     public void create(ClientEntity target) {
-    // Validate the arguments.
+        // Validate the arguments.
         if (target == null) {
 
             logger.warn ("Client object is null!");
@@ -147,7 +48,6 @@ public class ClientDaoHibernate implements IClientDao{
 
             }
         }
-
         Session session = null;
         Transaction tx = null;
         try {
@@ -251,10 +151,46 @@ public class ClientDaoHibernate implements IClientDao{
     }
 
     @Override
+    public ClientEntity findByPhone(String phone) {
+        if (isEmpty (phone)) {
+
+            logger.warn ("Phone argument is empty!");
+            return null;
+        }
+
+        ClientEntity client;
+        Session session = null;
+        try {
+
+            logger.debug ("Getting hibernate session...");
+            session = this.sessionFactory.openSession ();
+
+            logger.debug (String.format ("Finding client by phone %s", phone));
+            client = (ClientEntity)session.getNamedQuery ("ClientFindByPhone").
+                    setString("phone", phone).uniqueResult();
+
+
+        } catch (Exception e) {
+
+            logger.error ("Error finding a client by dni");
+            throw new DaoException (e.getMessage (), e);
+
+        } finally {
+
+            session.close ();
+        }
+        return client;
+    }
+
+
+
+
+    @Override
     public List<ClientEntity> findAll() {
         List<ClientEntity> list = null;
 
         Session session = null;
+
         try {
 
             logger.debug ("Getting hibernate session...");
@@ -312,4 +248,74 @@ public class ClientDaoHibernate implements IClientDao{
             session.close ();
         }
     }
+
+    @Override
+    public ClientEntity findByEmail(String email) {
+
+        if (isEmpty (email)) {
+
+            logger.warn ("Email argument is empty!");
+            return null;
+        }
+
+        ClientEntity client;
+        Session session = null;
+        try {
+
+            logger.debug ("Getting hibernate session...");
+            session = this.sessionFactory.openSession ();
+
+            logger.debug (String.format ("Finding client by emai %s", email));
+            client = (ClientEntity) session.
+                    createQuery ("From client p where p.email = '" + email + "'").
+                    uniqueResult ();
+
+        } catch (Exception e) {
+
+            logger.error ("Error finding a client by email");
+            throw new DaoException (e.getMessage (), e);
+
+        } finally {
+
+            session.close ();
+        }
+        return client;
+    }
+
+    @Override
+    public ClientEntity findByDNI(Integer dni) {
+        if (dni == null) {
+
+            logger.warn ("DNI argument is empty!");
+            return null;
+        }
+
+        ClientEntity client;
+        Session session = null;
+        try {
+
+            logger.debug ("Getting hibernate session...");
+            session = this.sessionFactory.openSession ();
+
+            logger.debug (String.format ("Finding client by dni %s", dni.toString()));
+            Criteria criteria = session.createCriteria (ClientEntity.class);
+            criteria.add (Restrictions.eq ("dni", dni));
+
+            client = (ClientEntity) criteria.uniqueResult ();
+
+        } catch (Exception e) {
+
+            logger.error ("Error finding a client by dni");
+            throw new DaoException (e.getMessage (), e);
+
+        } finally {
+
+            session.close ();
+        }
+
+        return client;
+
+    }
+
+
 }

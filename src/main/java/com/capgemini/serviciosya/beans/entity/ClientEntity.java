@@ -2,8 +2,6 @@ package com.capgemini.serviciosya.beans.entity;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.CreditCardNumber;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,12 +46,6 @@ public class ClientEntity {
     private String address;
 
 
-    @Size(max = 16)
-    @CreditCardNumber
-    @Column(name = "creditcard_number", nullable = true, unique = false)
-    private int creditcard_number;
-
-
     @ManyToOne
     @JoinColumn(name = "city_id")
     private CityEntity city;
@@ -64,7 +56,7 @@ public class ClientEntity {
         super();
     }
 
-    public ClientEntity(int id, String name, String lastName, String phone, Integer dni, String email, String address, Integer creditcard_number, CityEntity city) {
+    public ClientEntity(int id, String name, String lastName, String phone, Integer dni, String email, String address,CityEntity city) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -72,10 +64,8 @@ public class ClientEntity {
         this.dni = dni;
         this.email = email;
         this.address = address;
-        this.creditcard_number = creditcard_number;
         this.city = city;
     }
-
 
     public int getId() {
 
@@ -122,7 +112,6 @@ public class ClientEntity {
         this.email = email;
     }
 
-
     public String getLastName() {
         return lastName;
     }
@@ -145,14 +134,6 @@ public class ClientEntity {
 
     public void setCity(CityEntity city) {
         this.city = city;
-    }
-
-    public Integer getCreditcard_number() {
-        return creditcard_number;
-    }
-
-    public void setCreditcard_number(Integer creditcard_number) {
-        this.creditcard_number = creditcard_number;
     }
 
     @Override
