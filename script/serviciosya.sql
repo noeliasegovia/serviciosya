@@ -249,4 +249,44 @@ ALTER TABLE public.client
     OWNER to postgres;
 
 
- 
+
+-- SEQUENCE: public.servicecontract_seq
+
+-- DROP SEQUENCE public.servicecontract_seq;
+
+CREATE SEQUENCE public.servicecontract_seq;
+
+ALTER SEQUENCE public.servicecontract_seq
+    OWNER TO postgres;
+
+
+ -- Table: public.servicecontract
+
+-- DROP TABLE public.servicecontract;
+
+CREATE TABLE public.servicecontract
+(
+    id integer NOT NULL DEFAULT nextval('servicecontract_seq'::regclass),
+    id_client integer NOT NULL,
+    id_provider integer NOT NULL,
+    description character varying(180) COLLATE pg_catalog."default" NOT NULL,
+    price integer NOT NULL,
+    way_to_pay integer NOT NULL,
+    status integer NOT NULL,
+    CONSTRAINT servicecontract_pkey PRIMARY KEY (id),
+    CONSTRAINT cliente_id FOREIGN KEY (id_client)
+        REFERENCES public.client (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT provider_id FOREIGN KEY (id_provider)
+        REFERENCES public.provider (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.servicecontract
+    OWNER to postgres;
