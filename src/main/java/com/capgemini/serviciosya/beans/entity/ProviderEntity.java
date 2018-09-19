@@ -16,65 +16,55 @@ import javax.validation.constraints.Size;
                 query = "from Provider p where p.phone = :phone"
         )
 })
-@Entity (name = "Provider")
+@Entity
 @Table (name = "provider")
 
 public class ProviderEntity {
 
     //Map the field (Database tables) and properties (Java classes)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",nullable = false,insertable = false, updatable = false)
+    @Column(name="id")
+    @SequenceGenerator(sequenceName = "SQ_PROVIDER", name = "SQ_PROVIDER", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_PROVIDER")
+
     private  int id;
-    @Column (name = "name", length = 48, nullable = false)
+
     private String name;
 
-    @Column (name = "lastName", length = 48, nullable = false)
     private String lastName;
 
-    @Column (name = "phone", length = 48, nullable = false, unique = true)
     private String phone;
 
-    @Column (name = "dni", nullable = false, unique = true)
     private Integer dni;
 
-    @Size (min = 15, max = 100)
-    @Email
-    @Column (name = "email", length = 128, nullable = false, unique = true)
     private String email;
 
-    @Column (name = "address", length = 128, nullable = false)
     private String address;
 
-    @Range (min = 0, max = 2)
-    @Column (name = "status", nullable = false)
     private Integer status;
 
-    @ManyToOne
-    @JoinColumn (name="city_id")
     private CityEntity city;
 
-
-    @ManyToMany (cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable (name = "occupation_x_provider",
-            joinColumns = {@JoinColumn (name = "provider_id")},
-            inverseJoinColumns = {@JoinColumn (name = "occupation_id")})
     private Set<OccupationEntity> occupations = new HashSet<> ();
 
 
-    public ProviderEntity () {
-
-        super ();
-    }
-
-    public ProviderEntity(int id, String name) {
-
-        super ();
-
-        this.id = id;
-        this.name = name;
-    }
-
+//    public ProviderEntity () {
+//
+//        super ();
+//    }
+//
+//    public ProviderEntity(int id, String name, String lastName, String phone, Integer dni, String email, String address, Integer status, CityEntity city, Set<OccupationEntity> occupations) {
+//        this.id = id;
+//        this.name = name;
+//        this.lastName = lastName;
+//        this.phone = phone;
+//        this.dni = dni;
+//        this.email = email;
+//        this.address = address;
+//        this.status = status;
+//        this.city = city;
+//        this.occupations = occupations;
+//    }
 
     public int getId () {
 
@@ -167,8 +157,7 @@ public class ProviderEntity {
     @Override
     public String toString () {
 
-        return this.name;
+        return "id="+id+",name="+name+",lastname="+lastName+", phone="+phone+",dni="+dni+",email="+email+",address="+address+",status="+status+",city="+city+",occupations="+occupations;
     }
-
 
 }

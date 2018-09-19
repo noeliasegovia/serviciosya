@@ -4,6 +4,7 @@ import com.capgemini.serviciosya.beans.entity.ProviderEntity;
 import com.capgemini.serviciosya.dao.DaoException;
 import com.capgemini.serviciosya.dao.IProviderDao;
 import org.apache.log4j.Logger;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,6 +16,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+
+
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import java.util.List;
@@ -23,198 +26,86 @@ import java.util.Set;
 
 public class ProviderDaoHibernate implements IProviderDao {
 
-
-    private SessionFactory sessionFactory = HibernateUtil.getSessionAnnotationFactory ();
-
-
+    private SessionFactory sessionFactory;
     private static final Logger logger= Logger.getLogger (ProviderDaoHibernate.class);
 
 
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+
     @Override
-    public void create (ProviderEntity target) {
+    public void save (ProviderEntity p) {
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.persist(p);
+        tx.commit();
+        session.close();
 
-        // Validate the arguments.
-        if (target == null) {
-
-            logger.warn ("Provider object is null!");
-            return;
-        }
-
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator ();
-
-        Set<ConstraintViolation<ProviderEntity>> validationErrors = validator.validate(target);
-
-        if(!validationErrors.isEmpty()){
-            for(ConstraintViolation<ProviderEntity> error : validationErrors){
-                System.out.println(error.getMessageTemplate()+"::"+error.getPropertyPath()+"::"+error.getMessage());
-
-            }
-        }
-
-        Session session = null;
-        Transaction tx = null;
-        try {
-
-            logger.debug ("Getting hibernate session...");
-            session = this.sessionFactory.openSession ();
-            tx = session.beginTransaction ();
-
-            logger.debug (String.format ("Creating new Provider %s", target));
-            session.save (target);
-            tx.commit ();
-            logger.debug (String.format ("New Provider %s created!", target));
-
-        } catch (Exception e) {
-
-            logger.error (String.format ("Error creating new Provider %s", target));
-            tx.rollback ();
-            throw new DaoException (e.getMessage (), e);
-
-        } finally {
-
-            session.close ();
-        }
     }
 
     @Override
-    public void update (ProviderEntity target) {
+    public void update (ProviderEntity p) {
 
-        // Validate the arguments.
-        if (target == null) {
+        Session session = this.sessionFactory.openSession();
+        session.update(p);
+        session.close();
 
-            logger.warn ("Provider object is null!");
-            return;
-        }
-
-        Session session = null;
-        Transaction tx = null;
-        try {
-
-            logger.debug ("Getting hibernate session...");
-            session = this.sessionFactory.openSession ();
-            tx = session.beginTransaction ();
-
-            logger.debug (String.format ("Updating Provider %s", target));
-            session.update (target);
-            tx.commit ();
-            logger.debug (String.format ("Provider %s created!", target));
-
-        } catch (Exception e) {
-
-            logger.error (String.format ("Error updating Provider %s", target));
-            tx.rollback ();
-            throw new DaoException (e.getMessage (), e);
-
-        } finally {
-
-            session.close ();
-        }
     }
 
     @Override
     public void delete (Integer id) {
 
-        // Validate the arguments.
-        if (id == null) {
+        Session session = this.sessionFactory.openSession();
+        session.delete(id);
+        session.close();
 
-            logger.warn ("Id Provider is null!");
-            return;
-        }
 
-        Session session = null;
-        Transaction tx = null;
-        try {
-
-            logger.debug ("Getting hibernate session...");
-            session = this.sessionFactory.openSession ();
-            tx = session.beginTransaction ();
-
-            logger.debug (String.format ("Deleting Provider by id %s", id.toString ()));
-            ProviderEntity c = (ProviderEntity) session.get (ProviderEntity.class, id);
-            if (c != null) {
-
-                session.delete (c);
-                tx.commit ();
-                logger.debug (String.format ("Provider by id %s deleted!", id.toString ()));
-            } else {
-                logger.warn (String.format ("Provider by id %s not found!", id.toString ()));
-            }
-
-        } catch (Exception e) {
-
-            logger.error (String.format ("Error deleting Provider id %s", id.toString ()));
-            tx.rollback ();
-            throw new DaoException (e.getMessage (), e);
-
-        } finally {
-
-            session.close ();
-        }
     }
 
     @Override
-    public List<ProviderEntity> findAll() {
+    public List<ProviderEntity> list() {
 
-        List<ProviderEntity> list = null;
-
-        Session session = null;
-        try {
-
-            logger.debug ("Getting hibernate session...");
-            session = this.sessionFactory.openSession ();
-
-            logger.debug ("Finding all Providers...");
-            list = (List<ProviderEntity>) session.createCriteria (ProviderEntity.class).list ();
-
-        } catch (Exception e) {
-
-            logger.error ("Error finding all Providers id");
-            throw new DaoException (e.getMessage (), e);
-
-        } finally {
-
-            session.close ();
-        }
-
-        return list;
+        Session session = this.sessionFactory.openSession();
+        List<ProviderEntity> provList = session.createQuery("from provider").list();
+        session.close();
+        return provList;
     }
+
+
 
     @Override
     public ProviderEntity findById (Integer id) {
 
-        // Validate the arguments.
         if (id == null) {
 
-            logger.warn ("Id Provider is null!");
+            logger.warn("Id Provider is null!");
             return null;
         }
-
         Session session = null;
         try {
-
-            logger.debug ("Getting hibernate session...");
-            session = this.sessionFactory.openSession ();
+            logger.debug("Getting hibernate session...");
+            session = this.sessionFactory.openSession();
 
             logger.debug (String.format ("Finding Provider by id %s", id.toString ()));
-            ProviderEntity c = (ProviderEntity) session.get (ProviderEntity.class, id);
+            ProviderEntity c = (ProviderEntity) session.get(ProviderEntity.class, id);
             if (c != null) {
 
                 return c;
             } else {
 
-                logger.warn (String.format ("Provider by id %s not found!", id.toString ()));
+                logger.warn(String.format("Provider by id %s not found!", id.toString()));
                 return null;
+
             }
+        }catch(Exception e){
 
-        } catch (Exception e) {
+                logger.error(String.format("Error finding Provider id %s", id.toString()));
+                throw new DaoException(e.getMessage(), e);
 
-            logger.error (String.format ("Error finding Provider id %s", id.toString ()));
-            throw new DaoException (e.getMessage (), e);
-
-        } finally {
-
-            session.close ();
+        }finally{
+            session.close();
         }
     }
 

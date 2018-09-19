@@ -34,6 +34,6 @@ public class ServiceContractDaoTest {
         Assert.assertNotNull("Failure creating new service contract.", s.getId());
     }
 
-    
+
 
 }
