@@ -24,6 +24,10 @@ public class OccupationEntity {
     @Column (name = "description", length = 48, nullable = false)
     private String description;
 
+    @ManyToOne
+    @JoinColumn (name= "parent")
+    private OccupationEntity occupation;
+
     @ManyToMany (mappedBy="occupations")
     private Set<ProviderEntity> providers = new HashSet<>();
 
@@ -33,12 +37,14 @@ public class OccupationEntity {
         super ();
     }
 
-    public OccupationEntity(int id, String name) {
+    public OccupationEntity(int id, String name, String description) {
 
         super ();
 
         this.id = id;
         this.name = name;
+        this.description=description;
+        this.occupation= occupation;
     }
 
 
@@ -70,19 +76,18 @@ public class OccupationEntity {
         this.description = description;
     }
 
-    public Set<ProviderEntity> getProviders() {
-
-        return providers;
+    public OccupationEntity getOccupation() {
+        return occupation;
     }
 
-    public ProviderEntity setProviders(ProviderEntity providers) {
-
-        return providers;
+    public void setOccupation(OccupationEntity occupation) {
+        this.occupation = occupation;
     }
 
-  @Override
+
+    @Override
     public String toString () {
 
-        return this.name;
-    }
+      return this.name + ": " + this.description;
+  }
 }

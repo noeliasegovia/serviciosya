@@ -2,13 +2,13 @@
 package com.capgemeini.serviciosya.service;
 
 
-import com.capgemeini.serviciosya.dao.IOccupationDao;
+import com.capgemeini.serviciosya.repository.IOccupationRepository;
 
 
 public class OccupationService {
 
 
-    private IOccupationDao occupationDao;
+    private IOccupationRepository occupationDao;
 
 
     public OccupationService () {
@@ -16,7 +16,7 @@ public class OccupationService {
         super ();
     }
 
-    public OccupationService (IOccupationDao occupationDao) {
+    public OccupationService (IOccupationRepository occupationDao) {
 
         super ();
 

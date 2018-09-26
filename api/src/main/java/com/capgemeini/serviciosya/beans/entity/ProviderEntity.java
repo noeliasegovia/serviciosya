@@ -1,8 +1,6 @@
 
 package com.capgemeini.serviciosya.beans.entity;
 
-
-import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Range;
 
@@ -72,14 +70,18 @@ public class ProviderEntity {
         super ();
     }
 
-    public ProviderEntity(int id, String name) {
-
-        super ();
-
+    public ProviderEntity(int id, String name, String lastName, String phone, Integer dni, String email, String address, Integer status, CityEntity city, Set<OccupationEntity> occupations) {
         this.id = id;
         this.name = name;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.dni = dni;
+        this.email = email;
+        this.address = address;
+        this.status = status;
+        this.city = city;
+        this.occupations = occupations;
     }
-
 
     public int getId () {
 
@@ -101,6 +103,63 @@ public class ProviderEntity {
         this.name = name;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Integer getDni() {
+        return dni;
+    }
+
+    public void setDni(Integer dni) {
+        this.dni = dni;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public CityEntity getCity() {
+        return city;
+    }
+
+    public void setCity(CityEntity city) {
+        this.city = city;
+    }
+
     public Set<OccupationEntity> getOccupations() {
 
         return occupations;
@@ -112,66 +171,8 @@ public class ProviderEntity {
     }
 
 
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public Integer getDni() {
-    return dni;
-  }
-
-  public void setDni(Integer dni) {
-    this.dni = dni;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
-  }
-
-  public Integer getStatus() {
-    return status;
-  }
-
-  public void setStatus(Integer status) {
-    this.status = status;
-  }
-
-  public CityEntity getCity() {
-    return city;
-  }
-
-  public void setCity(CityEntity city) {
-    this.city = city;
-  }
-
   @Override
-    public String toString () {
-
-        return this.name;
-    }
+  public String toString() {
+      return this.lastName + ", " + this.name;
+  }
 }

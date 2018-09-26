@@ -59,10 +59,15 @@ public class ClientEntity {
         super();
     }
 
-    public ClientEntity(int id, String name) {
-        super();
+    public ClientEntity(int id, String name, String lastName, String phone, Integer dni, String email, String address, CityEntity city) {
         this.id = id;
         this.name = name;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.dni = dni;
+        this.email = email;
+        this.address = address;
+        this.city = city;
     }
 
     //getters and setters
@@ -133,6 +138,6 @@ public class ClientEntity {
 
     @Override
     public String toString() {
-        return this.name;
+        return this.name+"  ,  "+ this.lastName;
     }
 }
