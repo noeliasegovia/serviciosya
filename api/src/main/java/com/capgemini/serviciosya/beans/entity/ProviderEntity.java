@@ -171,7 +171,6 @@ public class ProviderEntity {
         this.occupations = occupations;
     }
 
-
   @Override
   public String toString() {
       return this.lastName + ", " + this.name;

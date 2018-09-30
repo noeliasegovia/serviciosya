@@ -1,4 +1,4 @@
-/*
+
 
 package com.capgemini.serviciosya.repository;
 
@@ -12,4 +12,4 @@ import java.util.List;
 public interface IOccupationRepository extends JpaRepository<OccupationEntity, Integer> {
 
     List<OccupationEntity> findAllByOccupation (OccupationEntity occupation);
-}*/
+}

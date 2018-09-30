@@ -1,5 +1,4 @@
 
-
 package com.capgemini.serviciosya.beans.entity;
 
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  *
- *  <p>The class <code>com.capgemini.serviciosya.rest.controller.CountryController<code/>
+ *  <p>The class <code>com.capgemini.serviciosya.rest.controller.ProvinceController<code/>
  *  is controller object for the management of messages HTTP.
  *
  *

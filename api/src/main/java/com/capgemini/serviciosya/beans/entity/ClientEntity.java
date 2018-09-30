@@ -1,4 +1,4 @@
-/*
+
 package com.capgemini.serviciosya.beans.entity;
 
 import org.hibernate.validator.constraints.Email;
@@ -138,4 +138,4 @@ public class ClientEntity {
         return this.name+"  ,  "+ this.lastName;
     }
 }
-*/
+

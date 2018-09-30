@@ -1,4 +1,4 @@
-/*package com.capgemini.serviciosya.repository;
+package com.capgemini.serviciosya.repository;
 
 import com.capgemini.serviciosya.beans.entity.ClientEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +13,4 @@ public interface IClientRepository extends JpaRepository<ClientEntity,Integer> {
 
         ClientEntity findByPhone (String phone);
 
-}*/
+}
