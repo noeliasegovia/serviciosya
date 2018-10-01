@@ -57,14 +57,14 @@ public class ClientController {
      *  @Method GET
      *  @return Return a Client by dni.
      * */
-    @RequestMapping(value = "{dni}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/dni/{dni}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> get(@PathVariable("dni") int dni) {
 
-        ClientEntity client = this.clientRepository.findOne(dni);
+        ClientEntity client = this.clientRepository.findBydni(dni);
         if (client == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(this.clientRepository.findOne(dni));
+            return client;
         }
 
     }
