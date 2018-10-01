@@ -210,3 +210,46 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.occupation_x_provider
     OWNER to postgres;
+    
+    CREATE SEQUENCE public.client_seq
+    INCREMENT 1
+    START 4
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE public.client_seq
+    OWNER TO postgres;
+
+
+CREATE TABLE public.client
+(
+    id integer NOT NULL DEFAULT nextval('client_seq'::regclass),
+    name character varying(48) COLLATE pg_catalog."default" NOT NULL,
+    lastname character varying(48) COLLATE pg_catalog."default" NOT NULL,
+    dni integer NOT NULL,
+    email character varying(128) COLLATE pg_catalog."default" NOT NULL,
+    phone character varying(48) COLLATE pg_catalog."default" NOT NULL,
+    city_id integer NOT NULL,
+    address character varying(128) COLLATE pg_catalog."default" NOT NULL,
+    status integer NOT NULL,
+    CONSTRAINT consumer_pkey PRIMARY KEY (id),
+    CONSTRAINT "ux_client_dni" UNIQUE (dni)
+,
+    CONSTRAINT ux_client_email UNIQUE (email)
+,
+    CONSTRAINT ux_client_phone UNIQUE (phone)
+,
+    CONSTRAINT fk_client_to_city_id FOREIGN KEY (city_id)
+        REFERENCES public.city (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.client
+    OWNER to postgres;
+
